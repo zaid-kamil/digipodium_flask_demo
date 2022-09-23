@@ -6,7 +6,15 @@
     <div class="row form-row">
         <div class="col-lg-4 ">
             <h1 class="my-4 text-primary">Register An Account</h1>
-            <form class="shadow-lg p-3 rounded bg-light">
+            {% if error_list %}
+            {% for msg in error_list %}
+            <p class="text-danger text-small">
+                {{ msg|e }}
+            </p>
+            {% endfor %}
+            {% endif %}
+
+            <form class="shadow-lg p-3 rounded bg-light" method="POST">
                 <div class="mb-3">
                     <label for="email" class="form-label">Email address</label>
                     <input type="email" class="form-control" id="email" name="email">
