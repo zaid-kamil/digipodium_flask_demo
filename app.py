@@ -70,6 +70,7 @@ def register():
                 return redirect('/login')
         else:
             errors.append('Fill all the fields')
+            flash('user account could not be created','warning')
     return render_template('register.html', error_list=errors)
 
 

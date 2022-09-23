@@ -28,7 +28,7 @@
                                 class="visually-hidden">(current)</span></a>
                     </li>
                 </ul>
-                
+
                 <ul class="navbar-nav mt-2 mt-lg-0 ">
                     <li class="nav-item">
                         <a href="/login" class="nav-link">Sign In</a>
@@ -40,7 +40,6 @@
             </div>
         </nav>
     </header>
-
     <main>
         {% block body %}{% endblock %}
     </main>
@@ -55,7 +54,15 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.min.js"
         integrity="sha384-ODmDIVzN+pFdexxHEHFBQH3/9/vQ9uori45z4JjnFsRydbmQbmL5t1tQ0culUzyK" crossorigin="anonymous">
         </script>
+    <script>
+        window.onload = (event) => {
+            let myAlert = document.querySelector('.toast');
+            let bsAlert = new bootstrap.Toast(myAlert);
+            bsAlert.show();
+        }
+    </script>
     {% block js %}{% endblock %}
+    {% include "message.html" %}
 </body>
 
 </html>
