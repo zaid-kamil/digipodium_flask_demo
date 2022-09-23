@@ -4,6 +4,16 @@ from datetime import datetime
 
 db = SQLAlchemy()
 
+'''
+to create the project database, open terminal
+- type python and press enter
+- type 
+    from app import app, db
+    with app.app_context():
+        db.create_all()
+- enter twice to confirm
+'''
+
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
