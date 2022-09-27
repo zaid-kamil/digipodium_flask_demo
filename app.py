@@ -35,14 +35,48 @@ def create_app():
 
 app = create_app()
 
+def create_login_session(user: User):
+    session['id'] = user.id
+    session['username'] = user.username
+    session['email'] = user.email
+    session['is_logged_in'] = True
+
+def destroy_login_session():
+    if 'is_logged_in' in session:
+        session.clear()
+
+
 @app.route('/')
 def index():
     return render_template('index.html')
 
 # froute
-@app.route('/login')
+@app.route('/login',  methods=['GET','POST'])
 def login():
-    return render_template('login.html')
+    errors = {}
+    if request.method == 'POST':
+        email = request.form.get('email')
+        password = request.form.get('password')
+        print("LOGGIN IN",email, password)
+        if password and email:
+            if len(email) < 11 or '@' not in email:
+                errors['email'] = 'Email is Invalid'
+            if len(errors) == 0:
+                user = User.query.filter_by(email=email).first()
+                if user is not None:
+                    print("user account found", user)
+                    if user.password == password:
+                        create_login_session(user)
+                        flash('Login Successfull', "success")
+                        return redirect('/')
+                    else:
+                        errors['password'] = 'Password is invalid'
+                else:
+                    errors['email']= 'Account does not exists'
+        else:
+            errors['email'] = 'Please fill valid details'
+            errors['password'] = 'Please fill valid details'
+    return render_template('login.html', errors = errors)
 
 @app.route('/register', methods=['GET','POST'])
 def register():
@@ -73,6 +107,11 @@ def register():
             flash('user account could not be created','warning')
     return render_template('register.html', error_list=errors)
 
+@app.route('/logout')
+def logout():
+    destroy_login_session()
+    flash('You are logged out','success')
+    return redirect('/')    
 
 if __name__ == '__main__':
     app.run(host='127.0.0.1', port=8000, debug=True)

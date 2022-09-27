@@ -30,12 +30,22 @@
                 </ul>
 
                 <ul class="navbar-nav mt-2 mt-lg-0 ">
+                    {% if 'is_logged_in' in session %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/dashboard">{{session.username}}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logout">Logout</a>
+                    </li>
+                    {% else %}
                     <li class="nav-item">
                         <a href="/login" class="nav-link">Sign In</a>
                     </li>
                     <li class="nav-item">
                         <a href="/register" class="btn btn-outline-warning">Sign Up</a>
                     </li>
+                    {% endif %}
+
                 </ul>
             </div>
         </nav>
